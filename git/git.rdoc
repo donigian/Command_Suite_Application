@@ -1,0 +1,5 @@
+= git
+
+Generate this with
+    git rdoc
+After you have described your command line interface

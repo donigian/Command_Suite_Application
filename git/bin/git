@@ -1,0 +1,95 @@
+#!/usr/bin/env ruby
+require 'gli'
+include GLI::App
+
+program_desc 'Implementing Command Suite Application for Git'
+
+version Git::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+desc 'Suppress output to pager like more --no-pager​'
+switch [:n,:nopager]
+
+desc 'Verbose mode'
+default_value 'false'
+arg_name '-v'
+flag [:v,:verbose]
+
+desc 'Update remote refs along with associated objects'
+arg_name 'file'
+command :push do |c|
+  c.desc '--no-pager'
+  c.switch :n
+
+  c.desc 'Verbose mode'
+  c.default_value 'false'
+  c.flag :f
+  c.action do |global_options,options,args|
+
+    # Your command logic here
+     
+    # If you have any errors, just raise them
+    # raise "that command made no sense"
+
+    puts "Global:"
+    puts "-n - #{global_options[:n]}"
+    puts "Command:"
+    puts "-v - #{options[:v] ? 'true' : 'false'}"
+    puts "--priority - #{options[:priority]}"
+    puts "args - #{args.join(',')}"
+
+    puts "push command ran"
+  end
+end
+
+desc 'Show commit logs'
+arg_name 'file'
+command :log do |c|
+  c.action do |global_options,options,args|
+    # call git plumbing method (pluming vs porcelain)
+    puts "log command ran"
+  end
+end
+
+desc 'Describe checkout here'
+arg_name 'Describe arguments to checkout here'
+command :checkout do |c|
+  c.action do |global_options,options,args|
+    # call git plumbing method (pluming vs porcelain)
+    puts "checkout command ran"
+  end
+end
+
+desc 'Record changes to the repository'
+arg_name 'branch'
+command :commit do |c|
+  c.action do |global_options,options,args|
+    # call git plumbing method (pluming vs porcelain)
+    puts "commit command ran"
+  end
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit run(ARGV)

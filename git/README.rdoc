@@ -1,0 +1,6 @@
+= git
+
+Describe your project here
+
+:include:git.rdoc
+
